@@ -25,24 +25,15 @@ data Telescope : Type where
 tsCollapse : {n:Pos} -> {c:Type} -> Tscope n c -> Type
 tsCollapse {c} _ = c
 
+tsCollapse' : Telescope -> Type
+tsCollapse' (telescope ts) = tsCollapse ts
 ----------------------------------
 --  Syntax
 ----------------------------------
 
--- Target: elv = -## [l:Nat] -= (-## [v : Vect l nat] -= (-## [Elem l v] #) #) #
--- Note snip: (\l => tsCollapse ((\l => [{yet undesugared expression here?}]) l))
-
--- syntax "-##" "[" [type] "]" "#"
--- syntax "=##" "[" [type] "]" "#"
--- syntax "##=" "[" [type] "]" "#"
--- syntax "ASDF" "[" [type] "]" "#"
 syntax "-##" "[" [type] "]" "#"
   = tsBase type
 
--- syntax "-##" "[" {name} ":" [type] "-=" [tail] "#"
--- syntax "=##" "[" {name} ":" [type] "-=" [tail] "#"
--- syntax "##=" "[" {name} ":" [type] "-=" [tail] "#"
--- syntax "ASDF" "[" {name} ":" [type] "]" "-=" [tail] "#"
 syntax "-##" "[" {name} ":" [type] "]" "-=" [tail] "#"
   = tsCons type (\name => tsCollapse tail) (\name => tail)
 
