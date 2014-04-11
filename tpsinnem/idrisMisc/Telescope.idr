@@ -42,7 +42,7 @@ tsCollapse' (telescope ts) = tsCollapse ts
 syntax "#[" [type] "]#"
   = tsBase type
 
-syntax "#[" {name} ":" [type] "]-" [tail]
+syntax "#[" {name} ":" [type] "]=" [tail]
   = tsCons type (\name => tsCollapse tail) (\name => tail)
 
 -------------------------------
@@ -61,7 +61,7 @@ elv = tsCons
               tsBase (Elem l v)))
 
 elv2 : Telescope
-elv2 = telescope #[l:Nat]- #[v : Vect l Nat]- #[Elem l v]#
+elv2 = telescope (#[l:Nat]= #[v : Vect l Nat]= #[Elem l v]#)
 
 anElv : tsCollapse' elv2
 anElv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
