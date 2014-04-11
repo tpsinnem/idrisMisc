@@ -55,6 +55,7 @@ elv = tsCons
 
 elv2 : Telescope
 elv2 = telescope (-## [l:Nat] -= (-## [v : Vect l Nat] -= (-## [Elem l v] #) #) #)
+
 ---------------------
 --  'Regular' telescope type, naïvely adapted from
 --  https://personal.cis.strath.ac.uk/conor.mcbride/pub/DepRep/DepRep.pdf
