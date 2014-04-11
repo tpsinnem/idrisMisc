@@ -1,0 +1,5 @@
+package tpsinnem.idrisMisc
+
+modules = tpsinnem.idrisMisc.Pos,
+          tpsinnem.idrisMisc.Logic,
+          tpsinnem.idrisMisc.Telescope
