@@ -16,20 +16,20 @@ import Data.Vect
 
 data Tscope : Pos -> Type -> Type where
 
-  tsBase :  (a:Type) -> Tscope one a
+  tsBase :  (A:Type) -> Tscope one A
 
-  tsCons :  {n:Pos} -> (a:Type) -> (p : a -> Type) ->
-            ((a0:a) -> Tscope n (p a0)) -> Tscope (psuc n) (Exists a p)
+  tsCons :  {n:Pos} -> (A:Type) -> (P : A -> Type) ->
+            ((a:A) -> Tscope n (P a)) -> Tscope (psuc n) (Exists A P)
 
 
 data Telescope : Type where
-  telescope : {n:Pos} -> {c:Type} -> Tscope n c -> Telescope
+  telescope : {n:Pos} -> {C:Type} -> Tscope n C -> Telescope
 
-tsColl : {n:Pos} -> {c:Type} -> Tscope n c -> Type
-tsColl {c} _ = c
+TsColl : {n:Pos} -> {C:Type} -> Tscope n C -> Type
+TsColl {C} _ = C
 
-tsCollapse : Telescope -> Type
-tsCollapse (telescope ts) = tsColl ts
+TsCollapse : Telescope -> Type
+TsCollapse (telescope ts) = TsColl ts
 
 ----------------------------------
 --  Syntax
@@ -39,7 +39,7 @@ syntax "#[" [type] "]#"
   = tsBase type
 
 syntax "#[" {name} ":" [type] "]=" [tail]
-  = tsCons type (\name => tsColl tail) (\name => tail)
+  = tsCons type (\name => TsColl tail) (\name => tail)
 
 -------------------------------
 --  An experiment. Compare: https://gist.github.com/copumpkin/4197012
@@ -59,11 +59,11 @@ manual = telescope $  tsCons
                             (\v => 
                               tsBase (Elem l v)))
 
-elv : tsCollapse sugary
+elv : TsCollapse sugary
 elv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
 
 --  Won't typecheck:
---  notElv : tsCollapse sugary
+--  notElv : TsCollapse sugary
 --  notElv = (4 ** ([10, 0, 42, 3] ** (There $ There $ There $ Here)))
 
 ---------------------
