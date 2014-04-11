@@ -30,6 +30,7 @@ data Telescope : Type where
 tsCollapse : {n:Pos} -> {c:Type} -> Tscope n c -> Type
 tsCollapse {c} _ = c
 
+--  Well, have it both ways..
 tsCollapse' : Telescope -> Type
 tsCollapse' (telescope ts) = tsCollapse ts
 
