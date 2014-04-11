@@ -25,6 +25,27 @@ data Telescope : Type where
 tsCollapse : {n:Pos} -> {c:Type} -> Tscope n c -> Type
 tsCollapse {c} _ = c
 
+----------------------------------
+--  Syntax
+----------------------------------
+
+-- Target: elv = -## [l:Nat] -= (-## [v : Vect l nat] -= (-## [Elem l v] #) #) #
+-- Note snip: (\l => tsCollapse ((\l => [{yet undesugared expression here?}]) l))
+
+-- syntax "-##" "[" [type] "]" "#"
+-- syntax "=##" "[" [type] "]" "#"
+-- syntax "##=" "[" [type] "]" "#"
+-- syntax "ASDF" "[" [type] "]" "#"
+syntax "-##" "[" [type] "]" "#"
+  = tsBase type
+
+-- syntax "-##" "[" {name} ":" [type] "-=" [tail] "#"
+-- syntax "=##" "[" {name} ":" [type] "-=" [tail] "#"
+-- syntax "##=" "[" {name} ":" [type] "-=" [tail] "#"
+-- syntax "ASDF" "[" {name} ":" [type] "]" "-=" [tail] "#"
+syntax "-##" "[" {name} ":" [type] "]" "-=" [tail] "#"
+  = tsCons type (\name => tsCollapse tail) (\name => tail)
+
 -------------------------------
 --  An experiment. Compare: https://gist.github.com/copumpkin/4197012
 -------------------------------
@@ -40,7 +61,8 @@ elv = tsCons
             (\v => 
               tsBase (Elem l v)))
 
-
+elv2 : Telescope
+elv2 = telescope (-## [l:Nat] -= (-## [v : Vect l Nat] -= (-## [Elem l v] #) #) #)
 ---------------------
 --  'Regular' telescope type, naïvely adapted from
 --  https://personal.cis.strath.ac.uk/conor.mcbride/pub/DepRep/DepRep.pdf
