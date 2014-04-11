@@ -52,7 +52,7 @@ syntax "-##" "[" {name} ":" [type] "]" "-=" [tail] "#"
 elv : Tscope (psuc $ psuc $ one) (l:Nat ** (v : Vect l Nat ** (Elem l v)))
 elv = tsCons
         Nat 
-        (\l => (v : Vect l Nat ** (Elem l v))) -- NOTE -- SYNTAX
+        (\l => (v : Vect l Nat ** (Elem l v)))
         (\l =>
           tsCons
             (Vect l Nat)
