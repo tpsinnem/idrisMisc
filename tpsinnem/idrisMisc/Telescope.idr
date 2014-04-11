@@ -63,6 +63,13 @@ elv = tsCons
 elv2 : Telescope
 elv2 = telescope (-## [l:Nat] -= (-## [v : Vect l Nat] -= (-## [Elem l v] #) #) #)
 
+anElv : tsCollapse' elv2
+anElv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
+
+--  Won't typecheck:
+--  notAnElv : tsCollapse' elv2
+--  notAnElv = (4 ** ([10, 0, 42, 3] ** (There $ There $ There $ Here)))
+
 ---------------------
 --  'Regular' telescope type, naïvely adapted from 'Cx' in
 --  https://personal.cis.strath.ac.uk/conor.mcbride/pub/DepRep/DepRep.pdf
