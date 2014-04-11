@@ -25,14 +25,11 @@ data Tscope : Pos -> Type -> Type where
 data Telescope : Type where
   telescope : {n:Pos} -> {c:Type} -> Tscope n c -> Telescope
 
+tsColl : {n:Pos} -> {c:Type} -> Tscope n c -> Type
+tsColl {c} _ = c
 
---  Should this be defined for Telescope instead?
-tsCollapse : {n:Pos} -> {c:Type} -> Tscope n c -> Type
-tsCollapse {c} _ = c
-
---  Well, have it both ways..
-tsCollapse' : Telescope -> Type
-tsCollapse' (telescope ts) = tsCollapse ts
+tsCollapse : Telescope -> Type
+tsCollapse (telescope ts) = tsColl ts
 
 ----------------------------------
 --  Syntax
@@ -43,7 +40,7 @@ syntax "#[" [type] "]#"
   = tsBase type
 
 syntax "#[" {name} ":" [type] "]=" [tail]
-  = tsCons type (\name => tsCollapse tail) (\name => tail)
+  = tsCons type (\name => tsColl tail) (\name => tail)
 
 -------------------------------
 --  An experiment. Compare: https://gist.github.com/copumpkin/4197012
@@ -63,11 +60,11 @@ manual = telescope $  tsCons
                             (\v => 
                               tsBase (Elem l v)))
 
-elv : tsCollapse' sugary
+elv : tsCollapse sugary
 elv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
 
 --  Won't typecheck:
---  notElv : tsCollapse' sugary
+--  notElv : tsCollapse sugary
 --  notElv = (4 ** ([10, 0, 42, 3] ** (There $ There $ There $ Here)))
 
 ---------------------
