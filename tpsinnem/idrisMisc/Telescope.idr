@@ -27,6 +27,7 @@ tsCollapse {c} _ = c
 
 tsCollapse' : Telescope -> Type
 tsCollapse' (telescope ts) = tsCollapse ts
+
 ----------------------------------
 --  Syntax
 ----------------------------------
