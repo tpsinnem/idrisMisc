@@ -39,12 +39,6 @@ tsCollapse' (telescope ts) = tsCollapse ts
 --  - Alternative formulations very welcome!
 ----------------------------------
 
---syntax "-##" "[" [type] "]" "#"
---  = tsBase type
-
---syntax "-##" "[" {name} ":" [type] "]" "-=" [tail] "#"
---  = tsCons type (\name => tsCollapse tail) (\name => tail)
-
 syntax "#[" [type] "]#"
   = tsBase type
 
@@ -68,7 +62,6 @@ elv = tsCons
 
 elv2 : Telescope
 elv2 = telescope (#[l:Nat]- (#[v : Vect l Nat]- (#[Elem l v]#)))
---elv2 = telescope (-## [l:Nat] -= (-## [v : Vect l Nat] -= (-## [Elem l v] #) #) #)
 
 anElv : tsCollapse' elv2
 anElv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
@@ -76,13 +69,6 @@ anElv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
 --  Won't typecheck:
 --  notAnElv : tsCollapse' elv2
 --  notAnElv = (4 ** ([10, 0, 42, 3] ** (There $ There $ There $ Here)))
-
-----------------------------------
---  Sketching other syntaxen
-----------------------------------
-
---  (<[l:Nat] -= (<[v : Vect l Nat] -= (<[Elem l v]>)))
---  (<[l:Nat] (<[v : Vect l Nat] (<[Elem l v]>)))
 
 ---------------------
 --  'Regular' telescope type, naïvely adapted from 'Cx' in
