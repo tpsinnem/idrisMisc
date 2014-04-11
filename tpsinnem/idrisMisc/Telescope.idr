@@ -105,7 +105,7 @@ mutual
 -----------------------
 
 --  SYNTAX
---  - (\l => tvCollapse ((\l => [{yet undesugared expression here?}]) l)).
+--  - (\l => tsCollapse ((\l => [{yet undesugared expression here?}]) l)).
 --    - But would that be reasonable?
 --      - Recursion restrictions on syntax rules might prevent anything that
 --        isn't a little bonkers.
