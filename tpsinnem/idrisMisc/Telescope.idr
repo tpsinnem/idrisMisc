@@ -7,6 +7,11 @@ import Data.Vect
 
 ---------------------------------
 --  Yet another telescope type?
+--  - I aim this to essentially be a 'witness that a type is a depth-n
+--    right-nested dependent pair type'.
+--    - But:
+--      - Does it actually do that?
+--      - Is that sufficient for what people want from telescopes?
 ---------------------------------
 
 data Tscope : Pos -> Type -> Type where
@@ -30,6 +35,7 @@ tsCollapse' (telescope ts) = tsCollapse ts
 
 ----------------------------------
 --  Syntax
+--  - Alternative formulations very welcome!
 ----------------------------------
 
 syntax "-##" "[" [type] "]" "#"
@@ -77,54 +83,4 @@ mutual
   TsSeq : RegularTelescope -> Type
   TsSeq (rtsBase a)          = a
   TsSeq (rtsCons tail head)  = (tseq : TsSeq tail ** head tseq) 
-
----------------------------------
---  Syntax thoughts:
----------------------------------
-
---  I think this one is the winner:
-
-  -- elv = -## [l:Nat] -= (-## [v : Vect l nat] -= (-## [Elem l v] #) #) #
-
---  Runner-up:
-
-  -- elv = -## [l:Nat] -= (-## [v : Vect l nat] -= (-## [Elem l v] ##-) ##-) ##-
-
---  Other candidates:
-
-  -- elv = #> (l:Nat) =- (#> (v : Vect l nat) =- (#> (Elem l v) <#) <#) <#
-
-  -- elv = #> (l:Nat) ==- (#> (v : Vect l nat) ==- (#> (Elem l v) <#) <#) <#
-
-  -- elv = #>(l:Nat) =- (#>(v : Vect l nat) =- (#>(Elem l v)<#)<#)<#
-
-  -- elv = #- (l:Nat) =- (#- (v : Vect l nat) =- (#- (Elem l v) -#) -#) -#
-
-  -- elv = #< (l:Nat) =- (#< (v : Vect l nat) =- (#< (Elem l v) >#) >#) >#
-
-  -- elv = ##- (l:Nat) =- (##- (v : Vect l nat) =- (##- (Elem l v) -##) -##) -##
-
-  -- elv = -## (l:Nat) =- (-## (v : Vect l nat) =- (-## (Elem l v) ##-) ##-) ##-
-
-  -- elv = -# (l:Nat) =- (-# (v : Vect l nat) =- (-# (Elem l v) #-) #-) #-
-
-  -- elv = -## (l:Nat) =- (-## (v : Vect l nat) =- (-## (Elem l v) ##-) ##-) ##-
-
-  -- elv = -## (l:Nat) -= (-## (v : Vect l nat) -= (-## (Elem l v) ##-) ##-) ##-
-
-  -- elv = -## [[l:Nat]] -= (-## [[v : Vect l nat]] -= (-## [[Elem l v]] ##-) ##-) ##-
-
-  -- elv = -# [[l:Nat]] -= (-# [[v : Vect l nat]] -= (-# [[Elem l v]] #-) #-) #-
-
-  -- elv = -# [l:Nat] -= (-# [v : Vect l nat] -= (-# [Elem l v] #-) #-) #-
-
------------------------
---  Notes
------------------------
-
---  SYNTAX
---  - (\l => tsCollapse ((\l => [{yet undesugared expression here?}]) l)).
---    - But would that be reasonable?
---      - Recursion restrictions on syntax rules might prevent anything that
---        isn't a little bonkers.
 
