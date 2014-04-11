@@ -33,7 +33,6 @@ tsCollapse (telescope ts) = tsColl ts
 
 ----------------------------------
 --  Syntax
---  - Alternative formulations very welcome!
 ----------------------------------
 
 syntax "#[" [type] "]#"
