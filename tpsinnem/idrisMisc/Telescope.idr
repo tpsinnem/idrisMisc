@@ -5,6 +5,7 @@ import Data.Vect
 
 %default total
 
+
 ---------------------------------
 --  Yet another telescope type?
 --  - I aim this to essentially be a 'witness that a type is a depth-n
@@ -30,6 +31,7 @@ tsColl {C} _ = C
 tsCollapse : Telescopeish -> Type
 tsCollapse (telescopeish ts) = tsColl ts
 
+
 ----------------------------------
 --  Syntax
 ----------------------------------
@@ -39,6 +41,7 @@ syntax "#[" [type] "]#"
 
 syntax "#[" {name} ":" [type] "]=" [tail]
   = tsCons type (\name => tsColl tail) (\name => tail)
+
 
 -------------------------------
 --  An experiment. Compare: https://gist.github.com/copumpkin/4197012
@@ -65,6 +68,7 @@ elv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
 --  notElv : tsCollapse sugary
 --  notElv = (4 ** ([10, 0, 42, 3] ** (There $ There $ There $ Here)))
 
+
 ---------------------
 --  'Regular' telescope type, naïvely adapted from 'Cx' in
 --  https://personal.cis.strath.ac.uk/conor.mcbride/pub/DepRep/DepRep.pdf
@@ -84,6 +88,7 @@ mutual
   rtsColl : RegularishTscope -> Type
   rtsColl rtsEmpty            = ()
   rtsColl (rtsCons tail head) = (ctail : rtsColl tail ** head ctail) 
+
 
 -------------------------
 --  A variant of the above regularish type, truncated in the sense that,
