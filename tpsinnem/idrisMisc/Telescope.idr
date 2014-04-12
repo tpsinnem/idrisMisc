@@ -14,22 +14,22 @@ import Data.Vect
 --      - Is that sufficient for what people want from telescopes?
 ---------------------------------
 
-data Tscope : Pos -> Type -> Type where
+data Tscopey : Pos -> Type -> Type where
 
-  tsBase :  (A:Type) -> Tscope one A
+  tsBase :  (A:Type) -> Tscopey one A
 
   tsCons :  {n:Pos} -> (A:Type) -> (P : A -> Type) ->
-            ((a:A) -> Tscope n (P a)) -> Tscope (psuc n) (Exists A P)
+            ((a:A) -> Tscopey n (P a)) -> Tscopey (psuc n) (Exists A P)
 
 
-data Telescope : Type where
-  telescope : {n:Pos} -> {C:Type} -> Tscope n C -> Telescope
+data Telescopeish : Type where
+  telescopeish : {n:Pos} -> {C:Type} -> Tscopey n C -> Telescopeish
 
-TsColl : {n:Pos} -> {C:Type} -> Tscope n C -> Type
-TsColl {C} _ = C
+tsColl : {n:Pos} -> {C:Type} -> Tscopey n C -> Type
+tsColl {C} _ = C
 
-TsCollapse : Telescope -> Type
-TsCollapse (telescope ts) = TsColl ts
+tsCollapse : Telescopeish -> Type
+tsCollapse (telescopeish ts) = tsColl ts
 
 ----------------------------------
 --  Syntax
@@ -39,17 +39,17 @@ syntax "#[" [type] "]#"
   = tsBase type
 
 syntax "#[" {name} ":" [type] "]=" [tail]
-  = tsCons type (\name => TsColl tail) (\name => tail)
+  = tsCons type (\name => tsColl tail) (\name => tail)
 
 -------------------------------
 --  An experiment. Compare: https://gist.github.com/copumpkin/4197012
 -------------------------------
 
-sugary : Telescope
-sugary = telescope ( #[l:Nat]= #[v : Vect l Nat]= #[Elem l v]# )
+sugary : Telescopeish
+sugary = telescopeish ( #[l:Nat]= #[v : Vect l Nat]= #[Elem l v]# )
 
-manual : Telescope
-manual = telescope $  tsCons
+manual : Telescopeish
+manual = telescopeish $  tsCons
                         Nat 
                         (\l => (v : Vect l Nat ** (Elem l v)))
                         (\l =>
@@ -59,11 +59,11 @@ manual = telescope $  tsCons
                             (\v => 
                               tsBase (Elem l v)))
 
-elv : TsCollapse sugary
+elv : tsCollapse sugary
 elv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
 
 --  Won't typecheck:
---  notElv : TsCollapse sugary
+--  notElv : tsCollapse sugary
 --  notElv = (4 ** ([10, 0, 42, 3] ** (There $ There $ There $ Here)))
 
 ---------------------
@@ -81,10 +81,10 @@ mutual
     rtsBase : Type -> RegularTelescope
 
     rtsCons : (tail:RegularTelescope) ->
-              (head : TsSeq tail -> Type) -> RegularTelescope
+              (head : tsSeq tail -> Type) -> RegularTelescope
 
 
-  TsSeq : RegularTelescope -> Type
-  TsSeq (rtsBase a)          = a
-  TsSeq (rtsCons tail head)  = (tseq : TsSeq tail ** head tseq) 
+  tsSeq : RegularTelescope -> Type
+  tsSeq (rtsBase a)          = a
+  tsSeq (rtsCons tail head)  = (tseq : tsSeq tail ** head tseq) 
 
