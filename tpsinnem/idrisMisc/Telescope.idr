@@ -21,7 +21,6 @@ data Tscopey : Pos -> Type -> Type where
   tsCons :  {n:Pos} -> (A:Type) -> (P : A -> Type) ->
             ((a:A) -> Tscopey n (P a)) -> Tscopey (psuc n) (Exists A P)
 
-
 data Telescopeish : Type where
   telescopeish : {n:Pos} -> {C:Type} -> Tscopey n C -> Telescopeish
 
@@ -76,15 +75,14 @@ elv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
 
 mutual
 
-  data RegularishTelescopeTruncated : Type where
+  data RegularishTsTruncated : Type where
 
-    rtstBase :  Type -> RegularishTelescopeTruncated
+    rtstBase :  Type -> RegularishTsTruncated
 
-    rtstCons :  (tail : RegularishTelescopeTruncated) ->
-                (head : rtstColl tail -> Type) -> RegularishTelescopeTruncated
+    rtstCons :  (tail : RegularishTsTruncated) ->
+                (head : rtstColl tail -> Type) -> RegularishTsTruncated
 
-
-  rtstColl : RegularishTelescopeTruncated -> Type
+  rtstColl : RegularishTsTruncated -> Type
   rtstColl (rtstBase a)          = a
   rtstColl (rtstCons tail head)  = (ctail : rtstColl tail ** head ctail) 
 
