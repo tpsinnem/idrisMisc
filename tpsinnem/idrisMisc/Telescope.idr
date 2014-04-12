@@ -23,14 +23,14 @@ data Tscopey : Pos -> Type -> Type where
             ((a:A) -> Tscopey n (P a)) -> Tscopey (psuc n) (Exists A P)
 
 --  This exists for the sake of tidier type declarations, if one wants such.
-data Telescopeish : Type where
-  telescopeish : {n:Pos} -> {C:Type} -> Tscopey n C -> Telescopeish
+data Telescopey : Type where
+  telescopey : {n:Pos} -> {C:Type} -> Tscopey n C -> Telescopey
 
 tsColl : {n:Pos} -> {C:Type} -> Tscopey n C -> Type
 tsColl {C} _ = C
 
-tsCollapse : Telescopeish -> Type
-tsCollapse (telescopeish ts) = tsColl ts
+tsCollapse : Telescopey -> Type
+tsCollapse (telescopey ts) = tsColl ts
 
 
 --------------------------------------------------
@@ -48,19 +48,19 @@ syntax "#[" {name} ":" [type] "]=" [tail]
 --  An experiment. Adapted from https://gist.github.com/copumpkin/4197012
 -------------------------------
 
-sugary : Telescopeish
-sugary = telescopeish ( #[l:Nat]= #[v : Vect l Nat]= #[Elem l v]# )
+sugary : Telescopey
+sugary = telescopey ( #[l:Nat]= #[v : Vect l Nat]= #[Elem l v]# )
 
-manual : Telescopeish
-manual = telescopeish $ tsCons
-                          Nat 
-                          (\l => (v : Vect l Nat ** (Elem l v)))
-                          (\l =>
-                            tsCons
-                              (Vect l Nat)
-                              (\v => Elem l v)
-                              (\v => 
-                                tsBase (Elem l v)))
+manual : Telescopey
+manual = telescopey $ tsCons
+                        Nat 
+                        (\l => (v : Vect l Nat ** (Elem l v)))
+                        (\l =>
+                          tsCons
+                            (Vect l Nat)
+                            (\v => Elem l v)
+                            (\v => 
+                              tsBase (Elem l v)))
 
 elv : tsCollapse sugary
 elv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
