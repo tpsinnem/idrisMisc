@@ -13,8 +13,8 @@ import Data.Vect
 |||         * Does it actually do that?
 |||         * Is that sufficient for what people want from telescopes?
 |||
-||| @ length Positive integer length
-||| @ C      Accumulation of a right-nested dep. pair type
+||| @ length Positive integer length.
+||| @ C      Accumulation of a right-nested dependent pair type.
 
 data Tscopey : (length:Pos) -> (C:Type) -> Type where
 
@@ -23,13 +23,15 @@ data Tscopey : (length:Pos) -> (C:Type) -> Type where
   tsCons :  {n:Pos} -> (A:Type) -> (P : A -> Type) ->
             ((a:A) -> Tscopey n (P a)) -> Tscopey (psuc n) (Exists A P)
 
---  This exists for the sake of tidier type declarations, if one wants such.
+||| This exists for the sake of tidier type declarations, if one wants such.
 data Telescopey : Type where
   telescopey : {n:Pos} -> {C:Type} -> Tscopey n C -> Telescopey
 
+||| 'Collapse' a Tscopey to the accumulated nested dependent pair type.
 tsColl : {n:Pos} -> {C:Type} -> Tscopey n C -> Type
 tsColl {C} _ = C
 
+||| 'Collapse' a Telescopey to the accumulated nested dependent pair type.
 tsCollapse : Telescopey -> Type
 tsCollapse (telescopey ts) = tsColl ts
 
