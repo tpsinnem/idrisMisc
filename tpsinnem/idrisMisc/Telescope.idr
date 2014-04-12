@@ -5,7 +5,7 @@ import Data.Vect
 
 %default total
 
-
+---------------------------------
 ||| Yet another telescope type?
 ||| * I aim this to essentially be a 'witness that a type is a depth-n 
 |||   right-nested dependent pair type'.
@@ -15,6 +15,7 @@ import Data.Vect
 |||
 ||| @ length Positive integer length.
 ||| @ C      Accumulation of a right-nested dependent pair type.
+---------------------------------
 
 data Tscopey : (length:Pos) -> (C:Type) -> Type where
 
