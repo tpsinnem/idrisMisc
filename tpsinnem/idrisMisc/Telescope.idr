@@ -68,10 +68,28 @@ elv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
 ---------------------
 --  'Regular' telescope type, naïvely adapted from 'Cx' in
 --  https://personal.cis.strath.ac.uk/conor.mcbride/pub/DepRep/DepRep.pdf
---  - Not entirely directly adapted, though. Differences:
---    - I deal with Type rather than a custom code for types.
---    - I have an arbitrary Type already in the base case.
+--  - A difference is that this one deals with Type rather than a custom code
+--    for types.
 ---------------------
+
+mutual
+
+  data RegularishTscope: Type where
+
+    rtsEmpty :  RegularishTscope
+
+    rtsCons  :  (tail : RegularishTscope) ->
+                (head : rtsColl tail -> Type) -> RegularishTscope
+
+  rtsColl : RegularishTscope -> Type
+  rtsColl rtsEmpty            = ()
+  rtsColl (rtsCons tail head) = (ctail : rtsColl tail ** head ctail) 
+
+-------------------------
+--  A variant of the above regularish type, truncated in the sense that,
+--  like in 'Tscopey', there is not first an 'empty' base case.
+--  - Does that difference break anything?
+-------------------------
 
 mutual
 
