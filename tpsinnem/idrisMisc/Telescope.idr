@@ -76,15 +76,15 @@ elv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
 
 mutual
 
-  data RegularTelescope : Type where
+  data RegularishTelescopeTruncated : Type where
 
-    rtsBase : Type -> RegularTelescope
+    rtstBase :  Type -> RegularishTelescopeTruncated
 
-    rtsCons : (tail:RegularTelescope) ->
-              (head : tsSeq tail -> Type) -> RegularTelescope
+    rtstCons :  (tail : RegularishTelescopeTruncated) ->
+                (head : rtstColl tail -> Type) -> RegularishTelescopeTruncated
 
 
-  tsSeq : RegularTelescope -> Type
-  tsSeq (rtsBase a)          = a
-  tsSeq (rtsCons tail head)  = (tseq : tsSeq tail ** head tseq) 
+  rtstColl : RegularishTelescopeTruncated -> Type
+  rtstColl (rtstBase a)          = a
+  rtstColl (rtstCons tail head)  = (ctail : rtstColl tail ** head ctail) 
 
