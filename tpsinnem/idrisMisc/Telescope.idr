@@ -22,6 +22,7 @@ data Tscopey : Pos -> Type -> Type where
   tsCons :  {n:Pos} -> (A:Type) -> (P : A -> Type) ->
             ((a:A) -> Tscopey n (P a)) -> Tscopey (psuc n) (Exists A P)
 
+--  This exists for the sake of tidier type declarations, if one wants such.
 data Telescopeish : Type where
   telescopeish : {n:Pos} -> {C:Type} -> Tscopey n C -> Telescopeish
 
