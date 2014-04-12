@@ -56,16 +56,11 @@ sugary : Telescopey
 sugary = telescopey ( #[l:Nat]= #[v : Vect l Nat]= #[Elem l v]# )
 
 manual : Telescopey
-manual = telescopey $ tsCons
-                        Nat 
-                        (\l => (v : Vect l Nat ** (Elem l v)))
-                        (\l =>
-                          tsCons
-                            (Vect l Nat)
-                            (\v => Elem l v)
-                            (\v => 
-                              tsBase (Elem l v)))
-
+manual = telescopey $ tsCons  Nat 
+                              (\l => (v : Vect l Nat ** (Elem l v)))
+                              (\l => tsCons (Vect l Nat)
+                                            (\v => Elem l v)
+                                            (\v => tsBase (Elem l v)))
 elv : tsCollapse sugary
 elv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
 
