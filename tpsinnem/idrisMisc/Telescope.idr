@@ -6,16 +6,17 @@ import Data.Vect
 %default total
 
 
----------------------------------
---  Yet another telescope type?
---  - I aim this to essentially be a 'witness that a type is a depth-n
---    right-nested dependent pair type'.
---    - But:
---      - Does it actually do that?
---      - Is that sufficient for what people want from telescopes?
----------------------------------
+||| Yet another telescope type?
+||| * I aim this to essentially be a 'witness that a type is a depth-n 
+|||   right-nested dependent pair type'.
+|||     * But:
+|||         * Does it actually do that?
+|||         * Is that sufficient for what people want from telescopes?
+|||
+||| @ length Positive integer length
+||| @ C      Accumulation of a right-nested dep. pair type
 
-data Tscopey : Pos -> Type -> Type where
+data Tscopey : (length:Pos) -> (C:Type) -> Type where
 
   tsBase :  (A:Type) -> Tscopey one A
 
