@@ -71,7 +71,7 @@ elv = (4 ** ([10, 0, 42, 4] ** (There $ There $ There $ Here)))
 
 
 ---------------------
---  'Regular' telescope type, naïvely adapted from 'Cx' in
+--  'Regularish' telescope type, naïvely adapted from 'Cx' in
 --  https://personal.cis.strath.ac.uk/conor.mcbride/pub/DepRep/DepRep.pdf
 --  - A difference is that this one deals with Type rather than a custom code
 --    for types.
