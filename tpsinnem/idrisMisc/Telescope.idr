@@ -33,9 +33,9 @@ tsCollapse : Telescopeish -> Type
 tsCollapse (telescopeish ts) = tsColl ts
 
 
-----------------------------------
---  Syntax
-----------------------------------
+--------------------------------------------------
+--  Syntax: #[a:Foo]= #[b : Bar a]= #[Quux a b]#
+--------------------------------------------------
 
 syntax "#[" [type] "]#"
   = tsBase type
@@ -45,7 +45,7 @@ syntax "#[" {name} ":" [type] "]=" [tail]
 
 
 -------------------------------
---  An experiment. Compare: https://gist.github.com/copumpkin/4197012
+--  An experiment. Adapted from https://gist.github.com/copumpkin/4197012
 -------------------------------
 
 sugary : Telescopeish
