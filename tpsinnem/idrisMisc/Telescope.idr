@@ -5,7 +5,10 @@ import Data.Vect
 
 %default total
 
----------------------------------
+--------------------
+--  STOP PRESS!: Might you produce worthless Tscopeys by stuffing tsConses with
+--  somethings resembling FalseElim?
+--------------------
 ||| Yet another telescope type?
 ||| * I aim this to essentially be a 'witness that a type is a depth-n 
 |||   right-nested dependent pair type'.
